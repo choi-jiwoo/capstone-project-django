@@ -87,7 +87,7 @@ database = parser.get('mysql_config', 'database')
 username = parser.get('mysql_config', 'username')
 password = parser.get('mysql_config', 'password')
 host = parser.get('mysql_config', 'hostname')
-port =parser.get('mysql_config', 'port')
+port = parser.get('mysql_config', 'port')
 
 DATABASES = {
     'default': {
