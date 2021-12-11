@@ -11,23 +11,32 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from configparser import ConfigParser
+import environ
+import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = environ.Env(
+    # set casting, default value
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG=(bool, False)
+)
+
+# Set the project base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Take environment variables from .env file
+environ.Env.read_env(BASE_DIR / '.env')
+
+# False if not in os.environ because of casting above
+DEBUG = env('DEBUG')
+
+# SECURITY WARNING: keep the secret key used in production secret!
+# Raises Django's ImproperlyConfigured
+# exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(^n$o__y--7xf3)azz!=e4r)vroe69=@r$ayros^8nc*bskp9n'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -81,25 +90,13 @@ WSGI_APPLICATION = 'jeju.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-parser = ConfigParser()
-parser.read('./config.conf')
-database = parser.get('mysql_config', 'database')
-username = parser.get('mysql_config', 'username')
-password = parser.get('mysql_config', 'password')
-host = parser.get('mysql_config', 'hostname')
-port = parser.get('mysql_config', 'port')
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': database,
-        'USER': username,
-        'PASSWORD': password,
-        'HOST': host,
-        'PORT': port,
-    }
+    'default': env.db(),
 }
 
+if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+    DATABASES["default"]["HOST"] = "127.0.0.1"
+    DATABASES["default"]["PORT"] = 3306
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
