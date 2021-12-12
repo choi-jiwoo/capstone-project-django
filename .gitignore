@@ -1,4 +1,7 @@
 /venv
-.DS_Store
 **/__pycache__
-config.conf
+/venv
+.DS_Store
+.env
+cloud_sql_proxy
+db.sqlite3
