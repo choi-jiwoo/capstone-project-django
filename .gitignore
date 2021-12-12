@@ -1,6 +1,6 @@
 /venv
 **/__pycache__
-/venv
+/static
 .DS_Store
 .env
 cloud_sql_proxy
