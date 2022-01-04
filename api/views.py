@@ -2,8 +2,9 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
-from api.models import Stay
-from api.serializers import StaySerializer
+from api.models import Stay, Cafe, Res, CafeTag, ResTag
+from api.serializers import StaySerializer, CafeSerializer, ResSerializer
+from api.serializers import CafeTagSerializer, ResTagSerializer
 
 
 # stay
