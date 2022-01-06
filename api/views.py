@@ -7,6 +7,15 @@ from api.serializers import StaySerializer, CafeSerializer, ResSerializer
 from api.serializers import CafeTagSerializer, ResTagSerializer
 
 
+# cafe
+@api_view(['GET'])
+def get_all_cafe(request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    data = Cafe.objects.all().order_by('-review_count')[:30]
+    result_page = paginator.paginate_queryset(data, request)
+    serializer = CafeSerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
 # stay
 @api_view(['GET'])
 def get_filter_stay(request):
