@@ -63,3 +63,21 @@ class ResTag(models.Model):
     class Meta:
         managed = False
         db_table = 'res_tag'
+
+
+class CafeKwrd(models.Model):
+    id = models.IntegerField(primary_key=True)
+    keyword = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cafe_kwrd'
+
+
+class ResKwrd(models.Model):
+    id = models.IntegerField(primary_key=True)
+    keyword = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'res_kwrd'
