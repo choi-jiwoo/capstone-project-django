@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from api.models import Stay, Cafe, Res, CafeTag, ResTag
+from api.models import Stay, Cafe, Res, CafeTag, ResTag, CafeKwrd, ResKwrd
 
 
 class StaySerializer(ModelSerializer):
@@ -30,3 +30,16 @@ class ResTagSerializer(ModelSerializer):
     class Meta:
         model = ResTag
         fields = '__all__'
+
+
+class CafeKwrdSerializer(ModelSerializer):
+    class Meta:
+        model = CafeKwrd
+        fields = '__all__'
+
+
+class ResKwrdSerializer(ModelSerializer):
+    class Meta:
+        model = ResKwrd
+        fields = '__all__'
+
