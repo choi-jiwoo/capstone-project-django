@@ -32,11 +32,11 @@ def get_restaurant(request):
     params = request.GET.getlist('tag')
     if params:
         data = ResTag.objects.filter(tag__in=params).values_list('store_id', flat=True)
-        cafe_list = Res.objects.filter(id__in=data).order_by('-review_count')[:30]
+        res_list = Res.objects.filter(id__in=data).order_by('-review_count')[:30]
     else:
-        cafe_list = Res.objects.all().order_by('-review_count')[:30]
+        res_list = Res.objects.all().order_by('-review_count')[:30]
     
-    result_page = paginator.paginate_queryset(cafe_list, request)
+    result_page = paginator.paginate_queryset(res_list, request)
     serializer = ResSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
 
