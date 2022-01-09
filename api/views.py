@@ -10,13 +10,36 @@ from api.serializers import CafeKwrdSerializer, ResKwrdSerializer
 
 # cafe
 @api_view(['GET'])
-def get_all_cafe(request):
+def get_cafe(request):
     paginator = PageNumberPagination()
     paginator.page_size = 10
-    data = Cafe.objects.all().order_by('-review_count')[:30]
-    result_page = paginator.paginate_queryset(data, request)
+    params = request.GET.getlist('tag')
+    if params:
+        data = CafeTag.objects.filter(tag__in=params).values_list('store_id', flat=True)
+        cafe_list = Cafe.objects.filter(id__in=data).order_by('-review_count')[:30]
+    else:
+        cafe_list = Cafe.objects.all().order_by('-review_count')[:30]
+    
+    result_page = paginator.paginate_queryset(cafe_list, request)
     serializer = CafeSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
+
+# restaurant
+@api_view(['GET'])
+def get_restaurant(request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    params = request.GET.getlist('tag')
+    if params:
+        data = ResTag.objects.filter(tag__in=params).values_list('store_id', flat=True)
+        cafe_list = Res.objects.filter(id__in=data).order_by('-review_count')[:30]
+    else:
+        cafe_list = Res.objects.all().order_by('-review_count')[:30]
+    
+    result_page = paginator.paginate_queryset(cafe_list, request)
+    serializer = ResSerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
 # keywords
 @api_view(['GET'])
 def get_cafe_kwrds(request):

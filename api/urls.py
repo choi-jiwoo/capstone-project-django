@@ -3,7 +3,8 @@ from api import views
 
 
 urlpatterns = [
-    path('cafe', views.get_all_cafe),
+    path('cafe', views.get_cafe),
+    path('restaurant', views.get_restaurant),
     path('cafe/keyword', views.get_cafe_kwrds),
     path('restaurant/keyword', views.get_res_kwrds),
 ]
